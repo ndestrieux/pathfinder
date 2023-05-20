@@ -1,5 +1,6 @@
 import pygame
 
+from utils.node import Node
 from utils.properties import COLORS
 
 
@@ -21,20 +22,15 @@ class Maze:
         for i in range(self.rows):
             self._grid.append([])
             for j in range(self.rows):
-                self._grid[i].append(0)
+                node = Node((i, j), self.gap)
+                self._grid[i].append(node)
 
-    def draw_grid(self, win):
-        for i in range(self.rows):
-            pygame.draw.line(win, COLORS["GREY"], (0, i * self.gap), (self.width, i * self.gap))
-            for j in range(self.rows):
-                pygame.draw.line(win, COLORS["GREY"], (j * self.gap, 0), (j * self.gap, self.width))
+    def _draw_grid(self, win):
+        for row in self.grid:
+            for node in row:
+                node.draw(win)
 
     def draw(self, win):
-        win.fill(COLORS["WHITE"])
-        gap = self.width // self.rows
-        for x, row in enumerate(self.grid):
-            for y in range(len(row)):
-                pygame.draw.rect(win, COLORS["WHITE"], (x, y, gap, gap))
-        self.draw_grid(win)
+        win.fill(COLORS["GREY"], (0, 0, win.get_width(), win.get_width()))
+        self._draw_grid(win)
         pygame.display.update()
-

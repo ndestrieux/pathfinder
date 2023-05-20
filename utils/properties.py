@@ -1,5 +1,5 @@
-WIDTH, LENGTH = 800, 800
-ROWS = 50
+WIDTH, LENGTH = 600, 700
+ROWS = 40
 
 COLORS = {
     "RED": (255, 0, 0),

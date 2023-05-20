@@ -1,8 +1,7 @@
 import pygame
 
 from utils.maze import Maze
-from utils.properties import WIDTH, LENGTH, ROWS
-
+from utils.properties import LENGTH, ROWS, WIDTH
 
 if __name__ == "__main__":
     pygame.init()
