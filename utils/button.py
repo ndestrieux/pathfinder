@@ -1,6 +1,6 @@
 import pygame
 
-from utils.properties import COLORS, BTN_SIZE
+from utils.properties import BTN_SIZE, COLORS
 
 
 class Button:
@@ -26,7 +26,6 @@ class Button:
         else:
             self._bg = COLORS["GREY"]
         self._active = status
-
 
     def show(self, win):
         pygame.draw.rect(win, self._bg, self.rect)

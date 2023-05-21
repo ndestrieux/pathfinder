@@ -34,3 +34,9 @@ class Maze:
         win.fill(COLORS["GREY"], (0, 0, win.get_width(), win.get_width()))
         self._draw_grid(win)
         pygame.display.update()
+
+    def get_click_position(self, m):
+        y, x = m
+        row = y // self.gap
+        col = x // self.gap
+        return row, col

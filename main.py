@@ -4,7 +4,7 @@ import pygame
 
 from utils.button import Button
 from utils.maze import Maze
-from utils.properties import BTN_SIZE, LENGTH, ROWS, WIDTH
+from utils.properties import BTN_SIZE, LENGTH, NODE_TYPE_DICT, ROWS, WIDTH
 
 
 def click_button(m: Tuple[int, int], buttons: Dict[str, Button]) -> None:
@@ -26,11 +26,11 @@ if __name__ == "__main__":
 
     maze = Maze(WIDTH, ROWS)
     maze.create_grid()
-    button_dict = {
-        "btn_start": Button("Start node", (20, WIDTH + 20)),
-        "btn_end": Button("End node", (20 + BTN_SIZE[0] + 20, WIDTH + 20)),
-        "btn_wall": Button("Build wall", (20 + (BTN_SIZE[0] + 20) * 2, WIDTH + 20)),
-        "btn_find": Button("Find path", (20 + (BTN_SIZE[0] + 20) * 3, WIDTH + 20)),
+    BTN_DICT = {
+        "start": Button("Start node", (20, WIDTH + 20)),
+        "end": Button("End node", (20 + BTN_SIZE[0] + 20, WIDTH + 20)),
+        "wall": Button("Build wall", (20 + (BTN_SIZE[0] + 20) * 2, WIDTH + 20)),
+        "find": Button("Find path", (20 + (BTN_SIZE[0] + 20) * 3, WIDTH + 20)),
     }
 
     while running:
@@ -41,10 +41,18 @@ if __name__ == "__main__":
 
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 if 0 < mouse[0] < WIDTH < mouse[1] < LENGTH:
-                    click_button(mouse, button_dict)
+                    click_button(mouse, BTN_DICT)
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if set(mouse) < set(range(WIDTH)):
+                    for node_type in NODE_TYPE_DICT.keys():
+                        if BTN_DICT[node_type].active:
+                            row, col = maze.get_click_position(mouse)
+                            node = maze.grid[row][col]
+                            node.color = NODE_TYPE_DICT[node_type]
 
         maze.draw(screen)
-        for button in button_dict.values():
+        for button in BTN_DICT.values():
             button.show(screen)
 
         pygame.display.flip()

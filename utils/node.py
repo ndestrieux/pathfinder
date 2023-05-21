@@ -1,6 +1,6 @@
 import pygame
 
-from utils.properties import COLORS
+from utils.properties import NODE_COLORS
 
 
 class Node:
@@ -8,7 +8,7 @@ class Node:
         self.parent = parent
         self.position = position
         self.width = width
-        self.color = COLORS["WHITE"]
+        self.color = NODE_COLORS["WHITE"]
         self.g = 0
         self.h = 0
         self.f = 0
