@@ -1,19 +1,19 @@
+from typing import Dict, Tuple
+
 import pygame
-from typing import Tuple, Dict
 
 from utils.button import Button
 from utils.maze import Maze
-from utils.properties import LENGTH, ROWS, WIDTH, BTN_SIZE, COLORS
+from utils.properties import BTN_SIZE, LENGTH, ROWS, WIDTH
 
 
-def click_button(m: Tuple[int, int], btns: Dict[str, Button]) -> None:
-    for btn in btns.values():
+def click_button(m: Tuple[int, int], buttons: Dict[str, Button]) -> None:
+    for btn in buttons.values():
         if (
             btn.pos[0] < m[0] < btn.pos[0] + btn.size[0]
             and btn.pos[1] < m[1] < btn.pos[1] + btn.size[1]
-            and btn.active is False
         ):
-            btn.active = True
+            btn.active = not btn.active
         else:
             btn.active = False
 
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 
     maze = Maze(WIDTH, ROWS)
     maze.create_grid()
-    buttons = {
+    button_dict = {
         "btn_start": Button("Start node", (20, WIDTH + 20)),
         "btn_end": Button("End node", (20 + BTN_SIZE[0] + 20, WIDTH + 20)),
         "btn_wall": Button("Build wall", (20 + (BTN_SIZE[0] + 20) * 2, WIDTH + 20)),
@@ -41,10 +41,10 @@ if __name__ == "__main__":
 
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 if 0 < mouse[0] < WIDTH < mouse[1] < LENGTH:
-                    click_button(mouse, buttons)
+                    click_button(mouse, button_dict)
 
         maze.draw(screen)
-        for button in buttons.values():
+        for button in button_dict.values():
             button.show(screen)
 
         pygame.display.flip()
