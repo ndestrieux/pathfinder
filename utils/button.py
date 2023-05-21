@@ -27,12 +27,6 @@ class Button:
             self._bg = COLORS["GREY"]
         self._active = status
 
-    def show(self, win):
-        pygame.draw.rect(win, self._bg, self.rect)
-        text_surf, text_rect = self._text_object()
-        text_rect.center = self._btn_center()
-        win.blit(text_surf, text_rect)
-
     def _text_object(self):
         font = pygame.font.Font("freesansbold.ttf", 20)
         text_surface = font.render(self.text, True, COLORS["BLACK"])
@@ -40,3 +34,9 @@ class Button:
 
     def _btn_center(self):
         return self.pos[0] + (120 / 2), self.pos[1] + (50 / 2)
+
+    def show(self, win):
+        pygame.draw.rect(win, self._bg, self.rect)
+        text_surf, text_rect = self._text_object()
+        text_rect.center = self._btn_center()
+        win.blit(text_surf, text_rect)

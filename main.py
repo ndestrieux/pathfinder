@@ -38,6 +38,8 @@ if __name__ == "__main__":
 
     while running:
         mouse = pygame.mouse.get_pos()
+        if BTN_DICT["find"].active:
+            pathfinder.find_path()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
