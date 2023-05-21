@@ -35,8 +35,12 @@ class Maze:
         self._draw_grid(win)
         pygame.display.update()
 
-    def get_click_position(self, m):
+    def _get_click_position(self, m):
         y, x = m
         row = y // self.gap
         col = x // self.gap
         return row, col
+
+    def get_selected_node(self, m):
+        row, col = self._get_click_position(m)
+        return self.grid[row][col]

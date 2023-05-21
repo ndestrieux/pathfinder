@@ -50,9 +50,13 @@ if __name__ == "__main__":
                 if set(mouse) < set(range(WIDTH)):
                     for node_type in NODE_TYPE_DICT.keys():
                         if BTN_DICT[node_type].active:
-                            row, col = maze.get_click_position(mouse)
-                            node = maze.grid[row][col]
+                            node = maze.get_selected_node(mouse)
                             node.action()[node_type](pathfinder)
+
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
+                if set(mouse) < set(range(WIDTH)):
+                    node = maze.get_selected_node(mouse)
+                    node.remove_wall()
 
         maze.draw(screen)
         for button in BTN_DICT.values():
