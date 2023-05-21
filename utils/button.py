@@ -8,14 +8,28 @@ class Button:
         self.text = text
         self.pos = pos
         self.size = BTN_SIZE
-        self.bg = COLORS["GREY"]
+        self._bg = COLORS["GREY"]
+        self._active = False
+
+    @property
+    def active(self):
+        return self._active
 
     @property
     def rect(self):
         return self.pos + self.size
 
+    @active.setter
+    def active(self, status):
+        if status:
+            self._bg = COLORS["GREEN"]
+        else:
+            self._bg = COLORS["GREY"]
+        self._active = status
+
+
     def show(self, win):
-        pygame.draw.rect(win, self.bg, self.rect)
+        pygame.draw.rect(win, self._bg, self.rect)
         text_surf, text_rect = self._text_object()
         text_rect.center = self._btn_center()
         win.blit(text_surf, text_rect)
