@@ -9,6 +9,7 @@ class Node:
         self.position = position
         self.width = width
         self.color = NODE_COLORS["WHITE"]
+        self.wall = False
         self.g = 0
         self.h = 0
         self.f = 0
@@ -20,6 +21,23 @@ class Node:
     @property
     def y(self):
         return self.position[1] * self.width
+
+    def action(self):
+        return {
+            "start": self.make_start,
+            "end": self.make_end,
+            "wall": self.make_wall,
+        }
+
+    def make_start(self, pathfinder):
+        pathfinder.start_node = self
+
+    def make_end(self, pathfinder):
+        pathfinder.end_node = self
+
+    def make_wall(self, *args):
+        self.color = NODE_COLORS["BLACK"]
+        self.wall = True
 
     def draw(self, win):
         pygame.draw.rect(

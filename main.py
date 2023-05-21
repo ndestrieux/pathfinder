@@ -4,6 +4,7 @@ import pygame
 
 from utils.button import Button
 from utils.maze import Maze
+from utils.pathfinder import AStar
 from utils.properties import BTN_SIZE, LENGTH, NODE_TYPE_DICT, ROWS, WIDTH
 
 
@@ -26,6 +27,8 @@ if __name__ == "__main__":
 
     maze = Maze(WIDTH, ROWS)
     maze.create_grid()
+    pathfinder = AStar(maze)
+
     BTN_DICT = {
         "start": Button("Start node", (20, WIDTH + 20)),
         "end": Button("End node", (20 + BTN_SIZE[0] + 20, WIDTH + 20)),
@@ -49,7 +52,7 @@ if __name__ == "__main__":
                         if BTN_DICT[node_type].active:
                             row, col = maze.get_click_position(mouse)
                             node = maze.grid[row][col]
-                            node.color = NODE_TYPE_DICT[node_type]
+                            node.action()[node_type](pathfinder)
 
         maze.draw(screen)
         for button in BTN_DICT.values():
