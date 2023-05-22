@@ -25,9 +25,9 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
     running = True
 
-    maze = Maze(WIDTH, ROWS)
+    pathfinder = AStar()
+    maze = Maze(WIDTH, ROWS, pathfinder)
     maze.create_grid()
-    pathfinder = AStar(maze)
 
     BTN_DICT = {
         "start": Button("Start node", (20, WIDTH + 20)),

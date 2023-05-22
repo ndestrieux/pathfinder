@@ -5,10 +5,11 @@ from utils.properties import COLORS
 
 
 class Maze:
-    def __init__(self, width, rows):
+    def __init__(self, width, rows, pathfinder):
         self.width = width
         self.rows = rows
         self._grid = []
+        self.pathfinder = pathfinder
 
     @property
     def grid(self):
@@ -22,7 +23,7 @@ class Maze:
         for i in range(self.rows):
             self._grid.append([])
             for j in range(self.rows):
-                node = Node((i, j), self.gap)
+                node = Node((i, j), self)
                 self._grid[i].append(node)
 
     def _draw_grid(self, win):

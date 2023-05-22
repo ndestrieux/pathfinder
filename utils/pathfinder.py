@@ -1,7 +1,25 @@
-from utils.properties import NODE_COLORS
+from utils.properties import NODE_COLORS, WIDTH
 
 
-class AStar:
+class Path:
+    def __init__(self, pathfinder):
+        self._path = []
+        self.pathfinder = pathfinder
+
+    @property
+    def path(self):
+        return self._path
+
+    def build_path(self):
+        current = self.pathfinder.end_node
+        while current:
+            if current not in (self.pathfinder.start_node, self.pathfinder.end_node):
+                current.color = NODE_COLORS["PURPLE"]
+            self._path.append(current.position)
+            current = current.parent
+
+
+class NodeNeighbors:
     ADJACENT_NODE_POSITIONS = (
         (0, 1),
         (1, 0),
@@ -13,13 +31,46 @@ class AStar:
         (-1, 1),
     )
 
-    def __init__(self, maze):
+    def __init__(self, node, maze):
         self.maze = maze
+        self.node = node
+        self._neighbors = []
+
+    @property
+    def neighbors(self):
+        return self._neighbors
+
+    def _position_in_range(self, pos):
+        return (0 <= pos[0] <= WIDTH - 1) and (0 <= pos[1] <= WIDTH - 1)
+
+    def _position_in_closed_list(self, position):
+        for node in self.maze.pathfinder.closed_list:
+            if node.position == position:
+                return True
+        return False
+
+    def find_neighbors(self):
+        for col, row in self.ADJACENT_NODE_POSITIONS:
+            new_pos = (
+                self.node.position[0] + col,
+                self.node.position[1] + row,
+            )
+            if (
+                self._position_in_range(new_pos)
+                and not self.maze.grid[new_pos[0]][new_pos[1]].wall
+                and not self._position_in_closed_list(new_pos)
+            ):
+                self._neighbors.append(self.maze.grid[new_pos[0]][new_pos[1]])
+
+
+class AStar:
+    def __init__(self):
         self._start_node = None
         self._end_node = None
         self._current_node = None
         self._open_list = []
         self._closed_list = []
+        self.path = Path(self)
 
     @property
     def start_node(self):
@@ -28,6 +79,14 @@ class AStar:
     @property
     def end_node(self):
         return self._end_node
+
+    @property
+    def current_node(self):
+        return self._current_node
+
+    @property
+    def closed_list(self):
+        return self._closed_list
 
     @start_node.setter
     def start_node(self, new_node):
@@ -43,46 +102,18 @@ class AStar:
         new_node.color = NODE_COLORS["RED"]
         self._end_node = new_node
 
-    def _position_in_range(self, pos):
-        return (0 <= pos[0] <= len(self.maze.grid) - 1) and (
-            0 <= pos[1] <= len(self.maze.grid[0]) - 1
-        )
-
-    def _position_in_closed_list(self, position):
-        for node in self._closed_list:
-            if node.position == position:
-                return True
-        return False
-
-    def _find_neighbors(self):
-        neighbors = []
-        for col, row in self.ADJACENT_NODE_POSITIONS:
-            new_pos = (
-                self._current_node.position[0] + col,
-                self._current_node.position[1] + row,
-            )
-            if (
-                self._position_in_range(new_pos)
-                and not self.maze.grid[new_pos[0]][new_pos[1]].wall
-                and not self._position_in_closed_list(new_pos)
-            ):
-                neighbors.append(self.maze.grid[new_pos[0]][new_pos[1]])
-        return neighbors
+    def _get_neighbors(self):
+        self._current_node.neighbors.find_neighbors()
+        return self._current_node.neighbors.neighbors
 
     def _calculate_heuristic(self, node):
         return ((node.position[0] - self.end_node.position[0]) ** 2) + (
             (node.position[1] - self.end_node.position[1]) ** 2
         )
 
-    def _build_path(self):
-        path = []
-        current = self._current_node
-        while current:
-            if current not in (self.start_node, self.end_node):
-                current.color = NODE_COLORS["PURPLE"]
-            path.append(current.position)
-            current = current.parent
-        return path[::-1]
+    def _get_path(self):
+        self.path.build_path()
+        return self.path.path
 
     def find_path(self):
         self._open_list.append(self.start_node)
@@ -96,12 +127,12 @@ class AStar:
                     current_index = index
 
             if self._current_node == self.end_node:
-                return self._build_path()
+                return self._get_path()
 
             self._open_list.pop(current_index)
             self._closed_list.append(self._current_node)
 
-            children = self._find_neighbors()
+            children = self._get_neighbors()
             temp_g_score = self._current_node.g + 1
             for child in children:
                 if child not in self._open_list:

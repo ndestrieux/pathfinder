@@ -1,15 +1,17 @@
 import pygame
 
+from utils.pathfinder import NodeNeighbors
 from utils.properties import NODE_COLORS
 
 
 class Node:
-    def __init__(self, position, width, *, parent=None):
+    def __init__(self, position, maze, *, parent=None):
         self.parent = parent
         self.position = position
-        self.width = width
+        self.width = maze.gap
         self.color = NODE_COLORS["WHITE"]
         self.wall = False
+        self.neighbors = NodeNeighbors(self, maze)
         self.g = 0
         self.h = 0
         self.f = 0
