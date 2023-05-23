@@ -1,5 +1,3 @@
-import pygame
-
 from utils.node import Node
 from utils.properties import COLORS
 
@@ -34,7 +32,6 @@ class Maze:
     def draw(self, win):
         win.fill(COLORS["GREY"], (0, 0, win.get_width(), win.get_width()))
         self._draw_grid(win)
-        pygame.display.update()
 
     def _get_click_position(self, m):
         y, x = m

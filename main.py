@@ -64,6 +64,8 @@ if __name__ == "__main__":
         for button in BTN_DICT.values():
             button.show(screen)
 
+        pygame.display.update()
+
         pygame.display.flip()
 
         clock.tick(60)
