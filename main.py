@@ -4,9 +4,11 @@ import pygame
 
 from src.interface.button import Button
 from src.interface.maze import Maze
+from src.pathfinder.node import Node
 from src.pathfinder.pathfinder import AStar
 from src.properties.interface import BTN_SIZE, LENGTH, ROWS, WIDTH
-from src.properties.node import NODE_TYPE_DICT
+
+# from src.properties.node import NODE_TYPE_DICT
 
 
 def click_button(m: Tuple[int, int], buttons: Dict[str, Button]) -> None:
@@ -51,7 +53,7 @@ if __name__ == "__main__":
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if set(mouse) < set(range(WIDTH)):
-                    for node_type in NODE_TYPE_DICT.keys():
+                    for node_type in Node.TYPE_DICT.keys():
                         if BTN_DICT[node_type].active:
                             node = maze.get_selected_node(mouse)
                             node.action()[node_type](pathfinder)

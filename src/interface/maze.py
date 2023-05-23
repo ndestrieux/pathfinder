@@ -7,11 +7,15 @@ class Maze:
         self.width = width
         self.rows = rows
         self._grid = []
-        self.pathfinder = pathfinder
+        self._pathfinder = pathfinder
 
     @property
     def grid(self):
         return self._grid
+
+    @property
+    def pathfinder(self):
+        return self._pathfinder
 
     @property
     def gap(self):

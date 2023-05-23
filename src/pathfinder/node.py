@@ -5,6 +5,12 @@ from src.properties.node import NODE_COLORS
 
 
 class Node:
+    TYPE_DICT = {
+        "start": NODE_COLORS["GREEN"],
+        "end": NODE_COLORS["RED"],
+        "wall": NODE_COLORS["BLACK"],
+    }
+
     def __init__(self, position, maze, *, parent=None):
         self.parent = parent
         self.position = position

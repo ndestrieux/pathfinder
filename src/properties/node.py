@@ -5,9 +5,3 @@ NODE_COLORS = {
     "BLACK": (0, 0, 0),
     "PURPLE": (128, 0, 128),
 }
-
-NODE_TYPE_DICT = {
-    "start": NODE_COLORS["GREEN"],
-    "end": NODE_COLORS["RED"],
-    "wall": NODE_COLORS["BLACK"],
-}

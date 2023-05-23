@@ -14,13 +14,17 @@ class NodeNeighbors:
     )
 
     def __init__(self, node, maze):
-        self.maze = maze
         self.node = node
         self._neighbors = []
+        self._maze = maze
 
     @property
     def neighbors(self):
         return self._neighbors
+
+    @property
+    def maze(self):
+        return self._maze
 
     def _position_in_range(self, pos):
         return (0 <= pos[0] <= WIDTH - 1) and (0 <= pos[1] <= WIDTH - 1)
