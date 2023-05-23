@@ -2,10 +2,11 @@ from typing import Dict, Tuple
 
 import pygame
 
-from utils.button import Button
-from utils.maze import Maze
-from utils.pathfinder import AStar
-from utils.properties import BTN_SIZE, LENGTH, NODE_TYPE_DICT, ROWS, WIDTH
+from src.interface.button import Button
+from src.interface.maze import Maze
+from src.pathfinder.pathfinder import AStar
+from src.properties.interface import BTN_SIZE, LENGTH, ROWS, WIDTH
+from src.properties.node import NODE_TYPE_DICT
 
 
 def click_button(m: Tuple[int, int], buttons: Dict[str, Button]) -> None:

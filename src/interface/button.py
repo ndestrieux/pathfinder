@@ -1,6 +1,6 @@
 import pygame
 
-from utils.properties import BTN_SIZE, COLORS
+from src.properties.interface import BTN_SIZE, COLORS
 
 
 class Button:

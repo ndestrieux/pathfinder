@@ -1,7 +1,7 @@
 import pygame
 
-from utils.pathfinder import NodeNeighbors
-from utils.properties import NODE_COLORS
+from src.pathfinder.node_neighbors import NodeNeighbors
+from src.properties.node import NODE_COLORS
 
 
 class Node:

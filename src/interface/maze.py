@@ -1,5 +1,5 @@
-from utils.node import Node
-from utils.properties import COLORS
+from src.pathfinder.node import Node
+from src.properties.interface import COLORS
 
 
 class Maze:
