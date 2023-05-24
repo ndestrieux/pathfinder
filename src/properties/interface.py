@@ -7,6 +7,9 @@ COLORS = {
     "BLACK": (0, 0, 0),
 }
 
+MENU_POS = (0, WIDTH)
+MENU_SIZE = (WIDTH, LENGTH - WIDTH)
+
 BTN_SIZE = (120, 50)
 
 MAIN_BUTTONS = (
@@ -15,3 +18,5 @@ MAIN_BUTTONS = (
     ("wall", "Build wall"),
     ("find", "Find path"),
 )
+
+END_BUTTONS = (("reset", "Reset"),)

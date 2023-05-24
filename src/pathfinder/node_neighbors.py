@@ -1,4 +1,4 @@
-from src.properties.interface import WIDTH
+from src.properties.interface import ROWS
 
 
 class NodeNeighbors:
@@ -27,7 +27,7 @@ class NodeNeighbors:
         return self._maze
 
     def _position_in_range(self, pos):
-        return (0 <= pos[0] <= WIDTH - 1) and (0 <= pos[1] <= WIDTH - 1)
+        return (0 <= pos[0] <= ROWS - 1) and (0 <= pos[1] <= ROWS - 1)
 
     def _position_in_closed_list(self, position):
         for node in self.maze.pathfinder.closed_list:

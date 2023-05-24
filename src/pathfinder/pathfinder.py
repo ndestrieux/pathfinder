@@ -9,6 +9,7 @@ class AStar:
         self._current_node = None
         self._open_list = []
         self._closed_list = []
+        self._completed = False
         self.path = Path(self)
 
     @property
@@ -26,6 +27,10 @@ class AStar:
     @property
     def closed_list(self):
         return self._closed_list
+
+    @property
+    def completed(self):
+        return self._completed
 
     @start_node.setter
     def start_node(self, new_node):
@@ -66,6 +71,7 @@ class AStar:
                     current_index = index
 
             if self._current_node == self.end_node:
+                self._completed = True
                 return self._get_path()
 
             self._open_list.pop(current_index)
@@ -85,5 +91,4 @@ class AStar:
                         child.parent = self._current_node
                         child.g = temp_g_score
                         child.f = child.g + child.h
-
-        return "No path found"
+        self._completed = True
