@@ -5,6 +5,7 @@ COLORS = {
     "GREEN": (0, 200, 0),
     "GREY": (128, 128, 128),
     "BLACK": (0, 0, 0),
+    "RED": (200, 0, 0),
 }
 
 MENU_POS = (0, WIDTH)

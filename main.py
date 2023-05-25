@@ -11,17 +11,19 @@ if __name__ == "__main__":
     running = True
 
     game = Game()
+    maze = game.maze
+    pathfinder = game.maze.pathfinder
 
     while running:
         mouse = pygame.mouse.get_pos()
-        game.maze.draw(screen)
+        maze.draw(screen)
         if (
             "find" in game.current_menu.buttons.keys()
             and game.current_menu.buttons["find"].active
-            and game.maze.pathfinder.start_node
-            and game.maze.pathfinder.end_node
+            and pathfinder.start_node
+            and pathfinder.end_node
         ):
-            game.maze.pathfinder.find_path()
+            pathfinder.find_path()
             game.current_menu.buttons["find"].active = False
             game.next_menu(screen)
 
@@ -31,32 +33,32 @@ if __name__ == "__main__":
         ):
             game.current_menu.buttons["reset"].active = False
             game = Game()
+            maze = game.maze
+            pathfinder = game.maze.pathfinder
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-            if game.maze.pathfinder.completed:
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    if 0 < mouse[0] < WIDTH < mouse[1] < LENGTH:
-                        game.click_button(mouse)
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                if 0 < mouse[0] < WIDTH < mouse[1] < LENGTH:
+                    game.click_button(mouse)
 
-            else:
-                if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-                    if 0 < mouse[0] < WIDTH < mouse[1] < LENGTH:
-                        game.click_button(mouse)
-
+            if not pathfinder.completed:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if set(mouse) < set(range(WIDTH)):
                         for node_type in Node.TYPE_DICT.keys():
                             if game.current_menu.buttons[node_type].active:
-                                node = game.maze.get_selected_node(mouse)
-                                node.action()[node_type](game.maze.pathfinder)
+                                node = maze.get_selected_node(mouse)
+                                node.action()[node_type](pathfinder)
 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 3:
                     if set(mouse) < set(range(WIDTH)):
-                        node = game.maze.get_selected_node(mouse)
+                        node = maze.get_selected_node(mouse)
                         node.remove_wall()
+
+        if pathfinder.completed and not pathfinder.path.path:
+            game.display_message(screen, "No path found")
 
         for button in game.current_menu.buttons.values():
             button.show(screen)

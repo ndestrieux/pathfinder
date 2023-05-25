@@ -54,3 +54,10 @@ class Game:
     def next_menu(self, win):
         self._menus.pop(0)
         pygame.draw.rect(win, COLORS["BLACK"], MENU_POS + MENU_SIZE)
+
+    def display_message(self, win, text):
+        font = pygame.font.Font("freesansbold.ttf", 40)
+        text_surf = font.render(text, True, COLORS["RED"], COLORS["BLACK"])
+        text_rect = text_surf.get_rect()
+        text_rect.center = (0 + self.maze.width / 2, 0 + self.maze.width / 2)
+        win.blit(text_surf, text_rect)
