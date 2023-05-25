@@ -12,11 +12,15 @@ MENU_SIZE = (WIDTH, LENGTH - WIDTH)
 
 BTN_SIZE = (120, 50)
 
-MAIN_BUTTONS = (
-    ("start", "Start node"),
-    ("end", "End node"),
-    ("wall", "Build wall"),
-    ("find", "Find path"),
+MENU_BTNS = (
+    (
+        "main",
+        (
+            ("start", "Start node"),
+            ("end", "End node"),
+            ("wall", "Build wall"),
+            ("find", "Find path"),
+        ),
+    ),
+    ("end", (("reset", "Reset"),)),
 )
-
-END_BUTTONS = (("reset", "Reset"),)

@@ -48,8 +48,9 @@ class Node:
         self.wall = True
 
     def remove_wall(self):
-        self.color = NODE_COLORS["WHITE"]
-        self.wall = False
+        if self.wall:
+            self.color = NODE_COLORS["WHITE"]
+            self.wall = False
 
     def draw(self, win):
         pygame.draw.rect(

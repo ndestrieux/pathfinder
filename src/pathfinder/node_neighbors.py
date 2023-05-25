@@ -26,7 +26,8 @@ class NodeNeighbors:
     def maze(self):
         return self._maze
 
-    def _position_in_range(self, pos):
+    @staticmethod
+    def _position_in_range(pos):
         return (0 <= pos[0] <= ROWS - 1) and (0 <= pos[1] <= ROWS - 1)
 
     def _position_in_closed_list(self, position):
