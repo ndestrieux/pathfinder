@@ -1,8 +1,8 @@
 import pygame
 
 from src.game.game import Game
-from src.pathfinder.node import Node
 from src.properties.interface import LENGTH, WIDTH
+from src.properties.node import NODE_TYPE_DICT
 
 
 def start_new_game():
@@ -51,7 +51,7 @@ if __name__ == "__main__":
             if not pathfinder.completed:
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if set(mouse) < set(range(WIDTH)):
-                        for node_type in Node.TYPE_DICT.keys():
+                        for node_type in NODE_TYPE_DICT.keys():
                             if game.current_menu.buttons[node_type].active:
                                 node = maze.get_selected_node(mouse)
                                 node.action()[node_type](pathfinder)
