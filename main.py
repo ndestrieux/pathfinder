@@ -4,15 +4,21 @@ from src.game.game import Game
 from src.pathfinder.node import Node
 from src.properties.interface import LENGTH, WIDTH
 
+
+def start_new_game():
+    new_game = Game()
+    new_maze = new_game.maze
+    new_pathfinder = new_game.maze.pathfinder
+    return new_game, new_maze, new_pathfinder
+
+
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((WIDTH, LENGTH))
     clock = pygame.time.Clock()
     running = True
 
-    game = Game()
-    maze = game.maze
-    pathfinder = game.maze.pathfinder
+    game, maze, pathfinder = start_new_game()
 
     while running:
         mouse = pygame.mouse.get_pos()
@@ -32,9 +38,7 @@ if __name__ == "__main__":
             and game.current_menu.buttons["reset"].active
         ):
             game.current_menu.buttons["reset"].active = False
-            game = Game()
-            maze = game.maze
-            pathfinder = game.maze.pathfinder
+            game, maze, pathfinder = start_new_game()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
