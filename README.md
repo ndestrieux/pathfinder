@@ -44,4 +44,5 @@ To run this project you need have Python installed on your computer (version 3.1
 ## Application view
 <details>
 <summary>see <b>screenshots</b></summary>
+  <img src="https://user-images.githubusercontent.com/42584510/241304567-ed1f749c-59a3-4a08-addc-3bbbd47fd224.png" width="50%" height="50%">
 </details>
