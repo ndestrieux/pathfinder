@@ -46,13 +46,32 @@ class AStar:
         new_node.color = NODE_COLORS["RED"]
         self._end_node = new_node
 
+    def _get_current_index(self):
+        current_index = 0
+        for index, item in enumerate(self._open_list):
+            if item.f < self._current_node.f:
+                self._current_node = item
+                current_index = index
+        return current_index
+
     def _get_neighbors(self):
         self._current_node.neighbors.find_neighbors()
         return self._current_node.neighbors.neighbors
 
+    def _update_children_scores(self, children):
+        temp_g_score = self._current_node.g + 1
+        for child in children:
+            if child not in self._open_list or temp_g_score < child.g:
+                if child not in self._open_list:
+                    self._open_list.append(child)
+                    child.h = self._calculate_heuristic(child)
+                child.parent = self._current_node
+                child.g = temp_g_score
+                child.f = child.g + child.h
+
     def _calculate_heuristic(self, node):
-        return ((node.position[0] - self.end_node.position[0]) ** 2) + (
-            (node.position[1] - self.end_node.position[1]) ** 2
+        return ((node.position[0] - self._end_node.position[0]) ** 2) + (
+            (node.position[1] - self._end_node.position[1]) ** 2
         )
 
     def _get_path(self):
@@ -64,11 +83,7 @@ class AStar:
 
         while self._open_list:
             self._current_node = self._open_list[0]
-            current_index = 0
-            for index, item in enumerate(self._open_list):
-                if item.f < self._current_node.f:
-                    self._current_node = item
-                    current_index = index
+            current_index = self._get_current_index()
 
             if self._current_node == self.end_node:
                 self._completed = True
@@ -78,17 +93,6 @@ class AStar:
             self._closed_list.append(self._current_node)
 
             children = self._get_neighbors()
-            temp_g_score = self._current_node.g + 1
-            for child in children:
-                if child not in self._open_list:
-                    self._open_list.append(child)
-                    child.parent = self._current_node
-                    child.g = temp_g_score
-                    child.h = self._calculate_heuristic(child)
-                    child.f = child.g + child.h
-                else:
-                    if temp_g_score < child.g:
-                        child.parent = self._current_node
-                        child.g = temp_g_score
-                        child.f = child.g + child.h
+            self._update_children_scores(children)
+
         self._completed = True
